@@ -1,0 +1,271 @@
+Release Name: MCUXpresso Software Development Kit (SDK)
+Release Version: 2.6.13
+Package License: LA_OPT_NXP_Software_License.htm - Additional Distribution License, Section 2.3 applies
+
+KSDK_Peripheral_Driver     Description: Peripheral drivers are designed for  
+                           the most common use cases identified for the      
+                           underlying hardware block.                        
+                           Author: Freescale                                 
+                           Version: 2.x.x                                    
+                           License: Open Source - BSD-3-Clause               
+                           Format: source code                               
+                           name: KSDK Peripheral Driver                      
+                           Location: devices/<device>/drivers                
+
+Amazon_FreeRTOS            Author: Real Time Engineers, Ltd.                 
+                           Description: IoT operating system for             
+                           microcontrollers                                  
+                           Format: source code                               
+                           License: MIT. See                                 
+                           ,<rootfolder>/rtos/amazon-freertos/License.       
+                           Location: rtos/amazon-freertos                    
+                           name: Amazon FreeRTOS                             
+                           URL: https://aws.amazon.com/freertos/             
+                           version: 1.4.6                                    
+
+FreeRTOS_heap_newlib       Author: Dave Nadler, Nadler & Associates          
+                           Consulting                                        
+                           Description: Newlib allocator for FreeRTOS        
+                           Format: source code                               
+                           License: Open Source - BSD-3-Clause               
+                           Location:                                         
+                           rtos/amazon-freertos/lib/FreeRTOS/portable/MemMang
+                           /                                                 
+                           name: Amazon FreeRTOS                             
+                           URL:                                              
+                           http://www.nadler.com/embedded/newlibAndFreeRTOS.h
+                           tml                                               
+                           version: 1.0.0                                    
+
+lin_stack                  name: LIN stack middleware                        
+                           Location: middleware/lin_stack                    
+                           License: Open Source - BSD-3-Clause               
+                           Description: A software component supporting LIN  
+                           protocol.                                         
+                           Author: NXP                                       
+                           version: 2.0.0                                    
+                           Format: source code                               
+
+cmsisdsp                   name: CMSIS DSP Library                           
+                           Format: source code                               
+                           License: Apache License 2.0, See CMSIS/LICENSE.txt
+                           parentversion: 1.5.2                              
+                           Author: ARM                                       
+                           version: 1.5.2 (CMSIS download 5.3.0)             
+                           URL:                                              
+                           https://github.com/ARM-software/CMSIS_5/releases/t
+                           ag/5.3.0                                          
+                           Location: CMSIS/DSP_Lib                           
+                           Description: A digital signal processing library  
+                           for Cortex-M cores from ARM                       
+
+cmsiscore                  Author: ARM                                       
+                           parentversion: 5.1.1                              
+                           URL:                                              
+                           https://github.com/ARM-software/CMSIS_5/releases/t
+                           ag/5.3.0                                          
+                           name: CMSIS Core header files                     
+                           Format: source code                               
+                           License: Apache License 2.0, See CMSIS/LICENSE.txt
+                           Location: CMSIS/Include                           
+                           version: 5.1.1 (CMSIS Download 5.3.0)             
+                           Description: Industry-standard header files       
+                           distributes by ARM for cortex-M cores             
+
+cmsis_drivers              Author: Freescale                                 
+                           version: 2.x.x                                    
+                           Format: source code                               
+                           Description: CMSIS Peripheral drivers are designed
+                           to provide hardware independent APIs which make   
+                           application reusable across a wide range of       
+                           supported microcontroller devices.                
+                           name: KSDK CMSIS Peripheral Drivers               
+                           Location: devices/<device>/cmsis_drivers          
+                           License: Open Source - Apache 2.0 & BSD-3-Clause  
+
+segger_systemview          version: 2.40a                                    
+                           Location:                                         
+                           boards/<board>/rtos_examples/visualization/freerto
+                           s_segger_sysview                                  
+                           Description: Segger systemview demo               
+                           License: Open Source - BSD-3-Clause               
+                           Author: Segger                                    
+                           name: Segger SystemView Demo                      
+                           Format: source code                               
+
+percepio_snapshot          version: 3.0.9                                    
+                           Location:                                         
+                           boards/<board>/rtos_examples/visualization/freerto
+                           s_percepio_snapshot                               
+                           Description: Percepio Tracealyzer                 
+                           License: Open Source - BSD-3-Clause               
+                           Author: Percepio                                  
+                           name: Percepio Tracealyzer - Snapshot Demo        
+                           Format: source code                               
+
+Kinetis_FWK                version: 5.7.12                                   
+                           Location: middleware/wireless/framework           
+                           Description: Kinetis Connectivity Framework       
+                           middleware for Connectivity stacks                
+                           License: Open Source - BSD-3-Clause               
+                           Author: NXP                                       
+                           name: Kinetis Connectivity Framework              
+                           Format: source code and header Files              
+
+Kinetis_SecLib             version: 5.7.12                                   
+                           Location:                                         
+                           middleware/wireless/framework/SecLib/lib_crypto_*.
+                           a                                                 
+                           Description: Connectivity Security Library for    
+                           Kinetis                                           
+                           License: Proprietary, See EULA                    
+                           LA_OPT_NXP_Software_License.htm                   
+                           Author: NXP                                       
+                           name: Kinetis Connectivity SecLib                 
+                           Format: Binary libraries                          
+
+Kinetis_BLE                version: 1.6.11.1                                 
+                           Location: middleware/wireless/bluetooth           
+                           Description: Bluetooth Low Energy Software        
+                           License: Open Source - BSD-3-Clause               
+                           Author: NXP                                       
+                           name: Bluetooth Low Energy Application Source     
+                           Format: Source code and header Files              
+
+Kinetis_BLE_HostLib        version: 1.6.11.1                                 
+                           Location: middleware/wireless/bluetooth/host/lib  
+                           Description: Bluetooth Low Energy Stack (HCI,     
+                           L2CAP, ATT, GATT, GAP and SM)                     
+                           License: Proprietary, See EULA                    
+                           LA_OPT_NXP_Software_License.htm                   
+                           Author: NXP                                       
+                           name: Bluetooth Low Energy Host Firmware          
+                           Format: Binary libraries                          
+
+Kinetis_HostSDK            version: 1.9.0.9                                  
+                           Location: tools/wireless/host_sdk                 
+                           Description: Network Protocol stack serial bus    
+                           drivers and application code                      
+                           License: Open Source - BSD-3-Clause               
+                           Author: NXP                                       
+                           name: HostSDK                                     
+                           Format: Binaries, Source code and header files    
+
+Kinetis_GENFSK             version: 3.0.10                                   
+                           Location: middleware/wireless/genfsk              
+                           Description: Software for driving the GENFSK      
+                           Module                                            
+                           License: Open Source - BSD-3-Clause               
+                           Author: NXP                                       
+                           name: Generic FSK Link Layer Software             
+                           Format: Source code and header files              
+
+Kinetis_BLE_ControllerLib  version: 1.6.12                                   
+                           Location:                                         
+                           middleware/wireless/ble_controller/lib/lib_ble_kw3
+                           8a4_controller.a                                  
+                           Description: Bluetooth Low Energy Controller      
+                           Firmware. Host Command Interface (HCI).           
+                           License: Proprietary, See EULA                    
+                           LA_OPT_NXP_Software_License.htm                   
+                           Author: Mindtree                                  
+                           name: Bluetooth Low Energy Controller Firmware    
+                           Format: Binary libraries                          
+
+Bootloader Source          Description: Software drivers for Bootloaders and 
+                           Flashloaders                                      
+                           Author: Freescale                                 
+                           License: Open Source - BSD-3-Clause               
+                           Format: source code                               
+                           Location: middleware/mcu-boot                     
+
+Host tools - Serial supportDescription: Windows Serial peripheral support    
+                           Author: Bus Pirate Project                        
+                           License: Open Source - CC0-1.0 (Creative Commons  
+                           Zero)                                             
+                           URL: http://code.google.com/p/the-bus-pirate/     
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/src/blfwk/serial.h,     
+                           middleware/mcu-boot/tools/src/blfwk/src/serial.c  
+
+Host tools - USB HID       Description: Windows USB HID support              
+support                    Author: HIDAPI                                    
+                           License: Open Source - BSD-3-Clause               
+                           URL: http://github.com/signal11/hidapi            
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/src/blfwk/hidapi.h,     
+                           middleware/mcu-boot/tools/src/blfwk/src/hid-*.c   
+
+Host tools - JSON support  Description: Windows JSON support                 
+                           Author: JSONCPP                                   
+                           License: Open Source - MIT                        
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/src/blfwk/json.h,       
+                           middleware/mcu-boot/tools/src/blfwk/src/jsoncpp.cp
+                           p                                                 
+
+Host tools - options       Description: Command line parsing utility         
+support                    Author: bradapp@enteract.com                      
+                           License: Open Source - MIT                        
+                           URL: http://www.bradapp.com                       
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/src/blfwk/options.h,    
+                           middleware/mcu-boot/tools/src/blfwk/src/options.cp
+                           p,                                                
+                           middleware/mcu-boot/tools/tools/elftosb/common/opt
+                           ions.h,                                           
+                           middleware/mcu-boot/tools/tools/elftosb/common/opt
+                           ions.cpp                                          
+
+Host tools - blfwk.lib     Description: C++ interface to the Vincent Rijmen's
+                           Rijndael block cipher                             
+                           Author: Szymon Stefanek (stefanek@tin.it)         
+                           License: Public Domain                            
+                           URL:                                              
+                           http://www.pragmaware.net/software/rijndael/index.
+                           php                                               
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/src/blfwk/rijndael.h,   
+                           middleware/mcu-boot/tools/src/blfwk/src/rijndael.c
+                           pp,                                               
+                           middleware/mcu-boot/tools/tools/elftosb/common/rij
+                           ndael.h,                                          
+                           middleware/mcu-boot/tools/tools/elftosb/common/rij
+                           ndael.cpp                                         
+
+Host tools - SHA-1         Description: Implementation of the SHA-1 algorithm
+                           Author: Dominik Reichl                            
+                           <dominik.reichl@t-online.de>                      
+                           License: Public Domain                            
+                           URL: http://www.dominik-reichl.de/                
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/tools/elftosb/common/SHA
+                           1.h,                                              
+                           middleware/mcu-boot/tools/tools/elftosb/common/SHA
+                           1.cpp                                             
+
+Utility Source - elf.py    Description: Python implementation of an ELF file 
+                           reader                                            
+                           Author: Chris Liechti (cliechti@gmx.net)          
+                           License: BSD License                              
+                           URL:                                              
+                           http://bazaar.launchpad.net/~zsquareplusc/python-m
+                           sp430-tools/trunk/view/head:/msp430/memory/elf.py 
+                           Format: source code                               
+                           Location: middleware/mcu-boot/bin/elf.py          
+
+ELFtoSB - MBED TLS stack   Description: Cryptographic and SSL/TLS Library    
+                           Author: ARM                                       
+                           License: Apache-2.0                               
+                           name: MBED TLS stack                              
+                           URL: https://tls.mbed.org/                        
+                           version: 2.6.0                                    
+                           Format: source code                               
+                           Location:                                         
+                           middleware/mcu-boot/tools/tools/elftosb/mbedtls   
