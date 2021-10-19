@@ -480,6 +480,8 @@ static void BleApp_ConnectionCallback (deviceId_t peerDeviceId, gapConnectionEve
             Led1Off();
             /* Go to sleep */
             SleepTimeoutSequence();
+            /* restart advertising*/
+            BleApp_Start();
 #else
             /* restart advertising*/
             BleApp_Start();
@@ -530,10 +532,10 @@ static void BleApp_GattServerCallback (deviceId_t deviceId, gattServerEvent_t* p
 static void AdvertisingTimerCallback(void* pParam)
 {
     /* Stop advertising */
-    if (mAdvState.advOn)
-    {
-        (void)Gap_StopAdvertising();
-    }
+//    if (mAdvState.advOn)
+//    {
+//        (void)Gap_StopAdvertising();
+//    }
 }
 
 /*! *********************************************************************************

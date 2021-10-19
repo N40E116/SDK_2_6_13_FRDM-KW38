@@ -54,7 +54,7 @@
 #define gRepeatedAttempts_d             0
 
 /* The application starts advertising without the need to press a button when this define is set*/   
-#define gAppStartAfterReset_d             0
+#define gAppStartAfterReset_d             1
 
 /* When gAppStartAfterReset_d is set, this define configures the time the device is disallowed to enter low power 
 after the start of the advertising. This delay must be long enough to allow the 32KHZ oscillator to start. 
@@ -119,7 +119,7 @@ The 32KHZ oscillator is known to have a slow start (about 400ms). Without it run
 #define cPWR_BLE_LL_OffsetToWakeupInstant 3
 
 /* Application Connection sleep mode */
-#define gAppDeepSleepMode_c             8
+#define gAppDeepSleepMode_c             1
 
 /* Disable unused LowPower modes */
 #define cPWR_EnableDeepSleepMode_1      1

@@ -54,8 +54,8 @@ extern gapDeviceSecurityRequirements_t deviceSecurityRequirements;
 /* Default Advertising Parameters. Values can be changed at runtime
     to align with profile requirements */
 gapAdvertisingParameters_t gAdvParams = {
-    /* minInterval */         0x12C0,
-    /* maxInterval */         0x1900,
+    /* minInterval */         gGapAdvertisingIntervalRangeMinimum_c, //0x12C0,
+    /* maxInterval */         gGapAdvertisingIntervalRangeMinimum_c, //0x1900,
     /* advertisingType */     gAdvConnectableUndirected_c,
     /* addressType */         gBleAddrTypePublic_c,
     /* directedAddressType */ gBleAddrTypePublic_c,
