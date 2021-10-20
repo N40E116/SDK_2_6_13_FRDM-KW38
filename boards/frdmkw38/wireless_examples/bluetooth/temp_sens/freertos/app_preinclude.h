@@ -64,6 +64,8 @@ The 32KHZ oscillator is known to have a slow start (about 400ms). Without it run
 /*! *********************************************************************************
  *     Framework Configuration
  ********************************************************************************** */
+#define gUsePanic_c 1
+
 /* enable NVM to be used as non volatile storage management by the host stack */
 #define gAppUseNvm_d                    1
 

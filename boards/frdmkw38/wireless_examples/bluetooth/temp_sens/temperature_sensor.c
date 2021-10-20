@@ -202,6 +202,7 @@ void BleApp_Start(void)
         /* Device is connected, send temperature value */
         BleApp_SendTemperature();
     }
+//    panic(0,(uint32_t)BleApp_Start,1,2);
 }
 
 /*! *********************************************************************************
