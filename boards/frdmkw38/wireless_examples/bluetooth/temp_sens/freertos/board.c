@@ -632,8 +632,20 @@ void BOARD_ResetCoreClock(void)
     MCG->C4 &= (uint8_t)(~(MCG_C4_DRST_DRS(1) | MCG_C4_DMX32(1)));
 }
 
+void check_overflow_cstack()
+{
+    extern uint32_t CHECK_OVERFLOW_CSTACK_SIZE[];
+    uint32_t CHECK_OVERFLOW_CSTACK_END = *((uint32_t*)0UL) - (uint32_t)CHECK_OVERFLOW_CSTACK_SIZE;
+    if(*(uint32_t*)CHECK_OVERFLOW_CSTACK_END != 0xcdcdcdcd)
+    {
+        panic(0,(uint32_t)check_overflow_cstack,0,0);
+    }
+}
+
 void BOARD_EnterLowPowerCb(void)
 {
+    check_overflow_cstack();
+    
 #if gKeyBoardSupported_d
 #if gKBD_TsiElectdCount_c
    /* keyboard enter low power */
