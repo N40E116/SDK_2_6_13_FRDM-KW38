@@ -632,6 +632,7 @@ void BOARD_ResetCoreClock(void)
     MCG->C4 &= (uint8_t)(~(MCG_C4_DRST_DRS(1) | MCG_C4_DMX32(1)));
 }
 
+#include "panic.h"
 void check_overflow_cstack()
 {
     extern uint32_t CHECK_OVERFLOW_CSTACK_SIZE[];
