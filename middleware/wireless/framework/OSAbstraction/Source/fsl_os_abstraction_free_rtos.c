@@ -1135,10 +1135,18 @@ static osaStatus_t osObjectFree(const osObjectInfo_t* pOsObjectInfo, void* pObje
 *           heap for task stack allocation or for OS object allocation
 *
 ********************************************************************************** */
+#include "panic.h"
 #if (configUSE_MALLOC_FAILED_HOOK==1)
 void vApplicationMallocFailedHook (void)
 {
     panic(0,(uint32_t)vApplicationMallocFailedHook,0,0);
+}
+#endif
+
+#if (configCHECK_FOR_STACK_OVERFLOW !=  0)
+void vApplicationStackOverflowHook(TaskHandle_t xTask, signed char *pcTaskName)
+{
+    panic(0,(uint32_t)vApplicationStackOverflowHook,0,0);
 }
 #endif
 

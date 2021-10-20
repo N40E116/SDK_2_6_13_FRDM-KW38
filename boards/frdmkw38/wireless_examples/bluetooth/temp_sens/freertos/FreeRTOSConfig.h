@@ -89,7 +89,7 @@
 #endif
 #define configUSE_TICK_HOOK                     0
 #ifndef configUSE_MALLOC_FAILED_HOOK
-#define configUSE_MALLOC_FAILED_HOOK            0
+#define configUSE_MALLOC_FAILED_HOOK            1
 #endif
 #define configUSE_DAEMON_TASK_STARTUP_HOOK      0
 
@@ -172,6 +172,6 @@ See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html. */
 
 /* Context and stack corruption check - configCHECK_FOR_STACK_OVERFLOW can take 0, 1 or 2*/
 #define configUSE_LIST_DATA_INTEGRITY_CHECK_BYTES 0
-#define configCHECK_FOR_STACK_OVERFLOW            0
+#define configCHECK_FOR_STACK_OVERFLOW            2
 
 #endif /* FREERTOS_CONFIG_H */
