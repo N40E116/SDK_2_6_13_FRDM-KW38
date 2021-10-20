@@ -642,9 +642,11 @@ void check_overflow_cstack()
         panic(0,(uint32_t)check_overflow_cstack,0,0);
     }
 }
-
+#include "LED.h"
 void BOARD_EnterLowPowerCb(void)
 {
+    Led1Off();
+    
     check_overflow_cstack();
     
 #if gKeyBoardSupported_d
@@ -670,6 +672,7 @@ void BOARD_EnterLowPowerCb(void)
 
 void BOARD_ExitLowPowerCb(void)
 {
+    Led1On();
     BOARD_DBGINITSET(2,0);
 
 #if defined(gBoard_ManageSwdPinsInLowPower_d) && (gBoard_ManageSwdPinsInLowPower_d > 0)
