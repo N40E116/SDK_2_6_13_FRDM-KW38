@@ -176,7 +176,7 @@ define symbol m_sector_size             = 2*1024; /* 2k flash sector size */
 if (isdefinedsymbol(__stack_size__)) {
     define symbol __size_cstack__        = __stack_size__;
 } else {
-    define symbol __size_cstack__        = 0x400;
+    define symbol __size_cstack__        = 0x500;
 }
 define exported symbol  CHECK_OVERFLOW_CSTACK_SIZE = __size_cstack__;
 

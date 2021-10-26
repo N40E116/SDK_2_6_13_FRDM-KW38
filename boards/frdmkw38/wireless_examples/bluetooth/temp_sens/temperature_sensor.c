@@ -29,6 +29,7 @@
 #include "MemManager.h"
 #include "Panic.h"
 #include "SerialManager.h"
+#include "PWR_Interface.h"
 
 #if defined(cPWR_UsePowerDownMode) && (cPWR_UsePowerDownMode)
 #include "PWR_Interface.h"
@@ -106,6 +107,15 @@ static uint8_t gAppSerMgrIf;
 static tmrTimerID_t mAllowDeviceToSleepTimerId;
 #endif
 #endif
+
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+static void BleApp_HandleControllerNotification(bleNotificationEvent_t *pNotificationEvent);
+
+#if defined(gUseControllerNotificationsCallback_c) && (gUseControllerNotificationsCallback_c)
+static void BleApp_ControllerNotificationCallback(bleCtrlNotificationEvent_t *pNotificationEvent);
+#endif
+#endif
+
 /************************************************************************************
 *************************************************************************************
 * Private functions prototypes
@@ -197,6 +207,10 @@ void BleApp_Start(void)
         (void)PWR_ChangeDeepSleepMode(gAppDeepSleepMode_c);
     #endif
 #endif
+        
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+            Gap_ControllerEnhancedNotification(gNotifAdvTx_c , 0);
+#endif
             /* Set advertising parameters, advertising to start on gAdvertisingParametersSetupComplete_c */
             BleApp_Advertise();
         }
@@ -260,15 +274,22 @@ void BleApp_GenericCallback (gapGenericEvent_t* pGenericEvent)
             panic(0,0,0,0);
         }
         break;
+        
 #if defined(gAppPrintLePhyEvent_c) && (gAppPrintLePhyEvent_c)
     case gLePhyEvent_c:
         if(pGenericEvent->eventData.phyEvent.phyEventType == gPhyUpdateComplete_c )
         {
             AppPrintLePhyEvent(&pGenericEvent->eventData.phyEvent);
-        }
+        }        
+        break; 
 #endif
-
+       
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+    case gControllerNotificationEvent_c:
+        BleApp_HandleControllerNotification(&pGenericEvent->eventData.notifEvent);
         break;
+#endif
+        
     default:
         {
             ; /* No action required */
@@ -346,6 +367,12 @@ static void BleApp_Config(void)
         TMR_StartLowPowerTimer( mAllowDeviceToSleepTimerId, gTmrSingleShotTimer_c, gAppStartAfterResetToLowPowerDelayMs_d, AllowDeviceToSleepTimerCallback, NULL);
     #endif
 #endif
+        
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+#if defined(gUseControllerNotificationsCallback_c) && (gUseControllerNotificationsCallback_c)
+    Controller_RegisterEnhancedEventCallback(BleApp_ControllerNotificationCallback);
+#endif
+#endif 
 }
 
 /*! *********************************************************************************
@@ -468,6 +495,10 @@ static void BleApp_ConnectionCallback (deviceId_t peerDeviceId, gapConnectionEve
 #endif
             /* UI */
             Led1On();
+            
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+            Gap_ControllerEnhancedNotification(gNotifConnRxPdu_c, peerDeviceId);
+#endif
         }
         break;
 
@@ -656,6 +687,220 @@ static void AllowDeviceToSleepTimerCallback(void * pParam)
 }
 #endif /*defined(cPWR_UsePowerDownMode) && (cPWR_UsePowerDownMode)*/
 #endif /* ( gAppStartAfterReset_d != 0) && (gAppStartAfterResetToLowPowerDelayMs_d != 0) */
+
+
+#if defined(gUseControllerNotifications_c) && (gUseControllerNotifications_c)
+static void BleApp_HandleControllerNotification(bleNotificationEvent_t *pNotificationEvent)
+{
+    switch(pNotificationEvent->eventType)
+    {
+        case gNotifEventNone_c:
+        {
+            Serial_Print(gAppSerMgrIf, "Configured notification status ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->status);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifConnEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Event Over device ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->deviceId);
+            Serial_Print(gAppSerMgrIf, " on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, " and event counter ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint16_t)pNotificationEvent->ce_counter);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifConnRxPdu_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Rx PDU from device ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->deviceId);
+            Serial_Print(gAppSerMgrIf, " on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, " with event counter ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint16_t)pNotificationEvent->ce_counter);
+            Serial_Print(gAppSerMgrIf, " and timestamp ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->timestamp);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifAdvEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Event Over.\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifAdvTx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Tx on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifAdvScanReqRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Rx Scan Req on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifAdvConnReqRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Rx Conn Req on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifScanEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Event Over on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifScanAdvPktRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Rx Adv Pkt on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifScanRspRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Rx Scan Rsp on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, " with RSSI ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, (uint8_t)pNotificationEvent->rssi);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifScanReqTx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Tx Scan Req on channel ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->channel);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        case gNotifConnCreated_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Created with device ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->deviceId);
+            Serial_Print(gAppSerMgrIf, " with timestamp ", gAllowToBlock_d);
+            Serial_PrintDec(gAppSerMgrIf, pNotificationEvent->timestamp);
+            Serial_Print(gAppSerMgrIf, "\n\r", gAllowToBlock_d);
+            break;
+        }
+
+        default:
+        {
+            ; /* No action required */
+            break;
+        }
+    }
+}
+
+#if defined(gUseControllerNotificationsCallback_c) && (gUseControllerNotificationsCallback_c)
+static void BleApp_ControllerNotificationCallback(bleCtrlNotificationEvent_t *pNotificationEvent)
+{
+    switch(pNotificationEvent->event_type)
+    {
+        case gNotifConnEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Ev Over\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifConnRxPdu_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Rx PDU\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifAdvEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Ev Over\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifAdvTx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Tx\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifAdvScanReqRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Rx Scan Req\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifAdvConnReqRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "ADV Rx Conn Req\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifScanEventOver_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Ev Over\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifScanAdvPktRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Rx Adv\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifScanRspRx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Rx Scan Rsp\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifScanReqTx_c:
+        {
+            Serial_Print(gAppSerMgrIf, "SCAN Tx Scan Req\n\r", gNoBlock_d);
+            break;
+        }
+
+        case gNotifConnCreated_c:
+        {
+            Serial_Print(gAppSerMgrIf, "CONN Created\n\r", gNoBlock_d);
+            break;
+        }
+
+        default:
+        {
+            ; /* No action required */
+            break;
+        }
+    }
+}
+#endif
+#endif
+
 /*! *********************************************************************************
 * @}
 ********************************************************************************** */

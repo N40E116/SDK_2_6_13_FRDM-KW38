@@ -22,6 +22,16 @@
 * Public macros
 **************************************************************************************
 *************************************************************************************/
+/* Enable/Disable Controller Adv/Scan/Connection Notifications */
+#ifndef gUseControllerNotifications_c
+#define gUseControllerNotifications_c 1
+#endif
+
+/* Receive Notifications in a callback registered in the Controller
+   instead of Host GAP Generic callback */
+#ifndef gUseControllerNotificationsCallback_c
+#define gUseControllerNotificationsCallback_c 0
+#endif
 
 /* Profile Parameters */
 
