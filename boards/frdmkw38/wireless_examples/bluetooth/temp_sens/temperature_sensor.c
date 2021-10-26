@@ -169,6 +169,10 @@ void BleApp_Init(void)
     /* Init eRPC host */
     init_erpc_host();
 #endif
+    
+    (void)Serial_Print(gAppSerMgrIf, "\r\nReset source:", gNoBlock_d);
+    Serial_PrintDec(gAppSerMgrIf, PWR_GetSystemResetStatus());
+    (void)Serial_Print(gAppSerMgrIf, "\r\n", gNoBlock_d);
 }
 
 /*! *********************************************************************************
