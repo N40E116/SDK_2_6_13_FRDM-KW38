@@ -637,6 +637,14 @@ void check_overflow_cstack()
 {
     extern uint32_t CHECK_OVERFLOW_CSTACK_SIZE[];
     uint32_t CHECK_OVERFLOW_CSTACK_END = *((uint32_t*)0UL) - (uint32_t)CHECK_OVERFLOW_CSTACK_SIZE;
+    
+    static uint8_t init_cstack_end_flag = 0;
+    if(0 == init_cstack_end_flag)
+    {
+        init_cstack_end_flag = 1;
+        *(uint32_t*)CHECK_OVERFLOW_CSTACK_END = 0xcdcdcdcd;
+    }    
+    
     if(*(uint32_t*)CHECK_OVERFLOW_CSTACK_END != 0xcdcdcdcd)
     {
         panic(0,(uint32_t)check_overflow_cstack,0,0);
